@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Problems Reference Sheet</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --accent: #ec4899;
+            --success: #10b981;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 3D Background Elements */
+        .bg-element {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .bg-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            left: -100px;
+        }
+        
+        .bg-2 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent);
+            bottom: -200px;
+            right: -200px;
+        }
+        
+        .bg-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 50%;
+            left: 30%;
+        }
+        
+        .floating-dots {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        .pattern-section {
+            margin-bottom: 50px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .pattern-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .pattern-header {
+            background: linear-gradient(90deg, #1e293b, #334155);
+            color: white;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pattern-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, #ec4899, #8b5cf6);
+        }
+        
+        .problems-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .problems-table th {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .problems-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+        }
+        
+        .problems-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .problems-table tr:hover td {
+            background: rgba(56, 70, 94, 0.4);
+        }
+        
+        .problem-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            color: var(--secondary);
+            width: 80px;
+            font-size: 0.95rem;
+        }
+        
+        .problem-title {
+            font-weight: 500;
+            color: var(--light);
+            min-width: 220px;
+            font-size: 1rem;
+        }
+        
+        .problem-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .problem-link:hover {
+            color: var(--light);
+            background: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .pseudocode {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            border-left: 3px solid var(--accent);
+            line-height: 1.5;
+        }
+        
+        .search-container {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .search-box {
+            padding: 15px 25px;
+            font-size: 1rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            width: 400px;
+            max-width: 90%;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Decorative curve */
+        .curve {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .curve::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: rgba(236, 72, 153, 0.1);
+            filter: blur(80px);
+            top: -300px;
+            right: -300px;
+        }
+        
+        .curve::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.1);
+            filter: blur(80px);
+            bottom: -200px;
+            left: -200px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .problems-table th,
+            .problems-table td {
+                padding: 12px 15px;
+            }
+            
+            .problem-title {
+                min-width: auto;
+            }
+            
+            .pseudocode {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .problems-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .search-box {
+                width: 90%;
+            }
+        }
+    </style>
+</head> 
+
+
+<body>
+    <div class="container">
+        <h1>🚀 LeetCode Problems Reference Sheet</h1>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search problems by number or title...">
+        </div>
+
+        <!-- Prefix Sum -->
+        <div class="pattern-section">
+            <div class="pattern-header">Prefix Sum</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">303</td>
+                        <td class="problem-title">Range Sum Query - Immutable</td>
+                        <td><a href="https://leetcode.com/problems/range-sum-query-immutable/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Build prefix sum array<br>2. For range [i,j]: return prefix[j+1] -
+                            prefix[i]</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">525</td>
+                        <td class="problem-title">Contiguous Array</td>
+                        <td><a href="https://leetcode.com/problems/contiguous-array/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use HashMap to store count differences<br>2. Track running sum (0→-1,
+                            1→+1)<br>3. Find max distance between same sums</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">560</td>
+                        <td class="problem-title">Subarray Sum Equals K</td>
+                        <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. HashMap stores prefix sum frequencies<br>2. For each sum, check if
+                            (sum-k) exists<br>3. Count occurrences</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Two Pointers -->
+        <div class="pattern-section">
+            <div class="pattern-header">Two Pointers</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">167</td>
+                        <td class="problem-title">Two Sum II - Input Array is Sorted</td>
+                        <td><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. left = 0, right = n-1<br>2. If sum > target: right--<br>3. If sum <
+                                target: left++<br>4. Return indices when sum = target</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">15</td>
+                        <td class="problem-title">3Sum</td>
+                        <td><a href="https://leetcode.com/problems/3sum/" class="problem-link" target="_blank">View
+                                Problem</a></td>
+                        <td class="pseudocode">1. Sort array<br>2. For each i, use two pointers on remaining<br>3. Skip
+                            duplicates<br>4. Find triplets with sum = 0</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">11</td>
+                        <td class="problem-title">Container With Most Water</td>
+                        <td><a href="https://leetcode.com/problems/container-with-most-water/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. left = 0, right = n-1<br>2. Calculate area = min(height[l], height[r])
+                            * (r-l)<br>3. Move pointer with smaller height</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sliding Window -->
+        <div class="pattern-section">
+            <div class="pattern-header">Sliding Window</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">643</td>
+                        <td class="problem-title">Maximum Average Subarray I</td>
+                        <td><a href="https://leetcode.com/problems/maximum-average-subarray-i/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Calculate sum of first k elements<br>2. Slide window: subtract left,
+                            add right<br>3. Track maximum sum</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">3</td>
+                        <td class="problem-title">Longest Substring Without Repeating Characters</td>
+                        <td><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use Set to track characters in window<br>2. Expand right, shrink left
+                            when duplicate<br>3. Track max window size</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">76</td>
+                        <td class="problem-title">Minimum Window Substring</td>
+                        <td><a href="https://leetcode.com/problems/minimum-window-substring/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Count chars in target<br>2. Expand right until valid<br>3. Shrink left
+                            while valid<br>4. Track minimum window</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Fast and Slow Pointers -->
+        <div class="pattern-section">
+            <div class="pattern-header">Fast and Slow Pointers</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">141</td>
+                        <td class="problem-title">Linked List Cycle</td>
+                        <td><a href="https://leetcode.com/problems/linked-list-cycle/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. slow = head, fast = head<br>2. Move slow by 1, fast by 2<br>3. If they
+                            meet, cycle exists</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">202</td>
+                        <td class="problem-title">Happy Number</td>
+                        <td><a href="https://leetcode.com/problems/happy-number/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. slow = n, fast = n<br>2. slow does 1 iteration, fast does 2<br>3. If
+                            cycle detected, not happy</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">287</td>
+                        <td class="problem-title">Find the Duplicate Number</td>
+                        <td><a href="https://leetcode.com/problems/find-the-duplicate-number/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use array values as indices<br>2. Apply Floyd's cycle detection<br>3.
+                            Find entrance to cycle</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Linked List In-place Reversal -->
+        <div class="pattern-section">
+            <div class="pattern-header">Linked List In-place Reversal</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">206</td>
+                        <td class="problem-title">Reverse Linked List</td>
+                        <td><a href="https://leetcode.com/problems/reverse-linked-list/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. prev = null, curr = head<br>2. next = curr.next<br>3. curr.next =
+                            prev<br>4. prev = curr, curr = next</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">92</td>
+                        <td class="problem-title">Reverse Linked List II</td>
+                        <td><a href="https://leetcode.com/problems/reverse-linked-list-ii/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Find position m-1<br>2. Reverse m to n nodes<br>3. Connect reversed
+                            portion back</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">24</td>
+                        <td class="problem-title">Swap Nodes in Pairs</td>
+                        <td><a href="https://leetcode.com/problems/swap-nodes-in-pairs/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use dummy node<br>2. For each pair: adjust 4 pointers<br>3. prev.next
+                            = second, first.next = second.next</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Monotonic Stack -->
+        <div class="pattern-section">
+            <div class="pattern-header">Monotonic Stack</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">496</td>
+                        <td class="problem-title">Next Greater Element I</td>
+                        <td><a href="https://leetcode.com/problems/next-greater-element-i/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use stack to store elements<br>2. For each element, pop smaller
+                            ones<br>3. Top of stack is next greater</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">739</td>
+                        <td class="problem-title">Daily Temperatures</td>
+                        <td><a href="https://leetcode.com/problems/daily-temperatures/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Stack stores indices<br>2. Pop indices with smaller temps<br>3.
+                            Answer[i] = current_index - popped_index</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">84</td>
+                        <td class="problem-title">Largest Rectangle in Histogram</td>
+                        <td><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Stack maintains increasing heights<br>2. On smaller height, calculate
+                            area<br>3. Width = current_i - stack.top() - 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top K Elements -->
+        <div class="pattern-section">
+            <div class="pattern-header">Top K Elements OR Min/Max Heap</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">215</td>
+                        <td class="problem-title">Kth Largest Element in an Array</td>
+                        <td><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use min-heap of size k<br>2. Add elements, remove if size > k<br>3.
+                            Root is kth largest</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">347</td>
+                        <td class="problem-title">Top K Frequent Elements</td>
+                        <td><a href="https://leetcode.com/problems/top-k-frequent-elements/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Count frequencies<br>2. Use min-heap of size k<br>3. Compare by
+                            frequency</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">373</td>
+                        <td class="problem-title">Find K Pairs with Smallest Sums</td>
+                        <td><a href="https://leetcode.com/problems/find-k-pairs-with-smallest-sums/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use min-heap for pairs<br>2. Start with (0,0) pair<br>3. Add adjacent
+                            pairs to heap</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Overlapping Intervals -->
+        <div class="pattern-section">
+            <div class="pattern-header">Overlapping Intervals</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">56</td>
+                        <td class="problem-title">Merge Intervals</td>
+                        <td><a href="https://leetcode.com/problems/merge-intervals/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Sort by start time<br>2. If current.start <= prev.end: merge<br>3.
+                                Else add to result</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">57</td>
+                        <td class="problem-title">Insert Interval</td>
+                        <td><a href="https://leetcode.com/problems/insert-interval/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Add non-overlapping intervals before<br>2. Merge overlapping
+                            intervals<br>3. Add remaining intervals</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">435</td>
+                        <td class="problem-title">Non-overlapping Intervals</td>
+                        <td><a href="https://leetcode.com/problems/non-overlapping-intervals/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Sort by end time<br>2. Greedily select non-overlapping<br>3. Count
+                            removals needed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modified Binary Search -->
+        <div class="pattern-section">
+            <div class="pattern-header">Modified Binary Search</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">33</td>
+                        <td class="problem-title">Search in Rotated Sorted Array</td>
+                        <td><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Find which half is sorted<br>2. Check if target in sorted half<br>3.
+                            Adjust left/right accordingly</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">153</td>
+                        <td class="problem-title">Find Minimum in Rotated Sorted Array</td>
+                        <td><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Compare mid with right<br>2. If mid > right: minimum in right
+                            half<br>3. Else minimum in left half</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">240</td>
+                        <td class="problem-title">Search a 2D Matrix II</td>
+                        <td><a href="https://leetcode.com/problems/search-a-2d-matrix-ii/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Start from top-right corner<br>2. If target < current: move left<br>3.
+                                If target > current: move down</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Binary Tree Traversal -->
+        <div class="pattern-section">
+            <div class="pattern-header">Binary Tree Traversal</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">257</td>
+                        <td class="problem-title">Binary Tree Paths</td>
+                        <td><a href="https://leetcode.com/problems/binary-tree-paths/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. DFS with path string<br>2. If leaf: add path to result<br>3. Recurse
+                            on children with updated path</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">230</td>
+                        <td class="problem-title">Kth Smallest Element in a BST</td>
+                        <td><a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Inorder traversal (left, root, right)<br>2. Count nodes visited<br>3.
+                            Return when count = k</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">124</td>
+                        <td class="problem-title">Binary Tree Maximum Path Sum</td>
+                        <td><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. For each node, calculate max gain<br>2. Update global max with path
+                            through node<br>3. Return max gain from one side</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">107</td>
+                        <td class="problem-title">Binary Tree Level Order Traversal II</td>
+                        <td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal-ii/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Level order traversal with queue<br>2. Store each level in array<br>3.
+                            Reverse final result</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Depth First Search -->
+        <div class="pattern-section">
+            <div class="pattern-header">Depth First Search</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">133</td>
+                        <td class="problem-title">Clone Graph</td>
+                        <td><a href="https://leetcode.com/problems/clone-graph/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. HashMap to store original->clone mapping<br>2. DFS: create clone,
+                            recurse on neighbors<br>3. Return cloned node</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">113</td>
+                        <td class="problem-title">Path Sum II</td>
+                        <td><a href="https://leetcode.com/problems/path-sum-ii/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. DFS with current path and remaining sum<br>2. If leaf and sum=0: add
+                            path to result<br>3. Backtrack after exploring</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">210</td>
+                        <td class="problem-title">Course Schedule II</td>
+                        <td><a href="https://leetcode.com/problems/course-schedule-ii/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Build adjacency list<br>2. DFS with 3 states: unvisited, visiting,
+                            visited<br>3. Detect cycles and build topological order</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Breadth First Search -->
+        <div class="pattern-section">
+            <div class="pattern-header">Breadth First Search</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">102</td>
+                        <td class="problem-title">Binary Tree Level Order Traversal</td>
+                        <td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/"
+                                class="problem-link" target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Use queue starting with root<br>2. For each level, process all
+                            nodes<br>3. Add children to queue for next level</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">994</td>
+                        <td class="problem-title">Rotting Oranges</td>
+                        <td><a href="https://leetcode.com/problems/rotting-oranges/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Add all rotten oranges to queue<br>2. BFS: spread rot to adjacent
+                            fresh oranges<br>3. Count minutes and check if all rotten</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">127</td>
+                        <td class="problem-title">Word Ladder</td>
+                        <td><a href="https://leetcode.com/problems/word-ladder/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. BFS with queue of words and distances<br>2. For each word, try all
+                            1-char changes<br>3. Return distance when target found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Matrix Traversal -->
+        <!-- Matrix Traversal -->
+        <div class="pattern-section">
+            <div class="pattern-header">Matrix Traversal</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">733</td>
+                        <td class="problem-title">Flood Fill</td>
+                        <td><a href="https://leetcode.com/problems/flood-fill/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. DFS/BFS from starting pixel<br>2. Change color if matches start
+                            color<br>3. Recurse/queue adjacent pixels</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">200</td>
+                        <td class="problem-title">Number of Islands</td>
+                        <td><a href="https://leetcode.com/problems/number-of-islands/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Scan grid for '1's<br>2. DFS/BFS to mark entire island<br>3. Count
+                            number of islands found</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">130</td>
+                        <td class="problem-title">Surrounded Regions</td>
+                        <td><a href="https://leetcode.com/problems/surrounded-regions/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Mark border 'O's and connected regions<br>2. Flip remaining 'O's to
+                            'X'<br>3. Restore marked regions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Backtracking -->
+        <div class="pattern-section">
+            <div class="pattern-header">Backtracking</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">46</td>
+                        <td class="problem-title">Permutations</td>
+                        <td><a href="https://leetcode.com/problems/permutations/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. Swap elements at each position<br>2. Recurse for next position<br>3.
+                            Backtrack by swapping back</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">78</td>
+                        <td class="problem-title">Subsets</td>
+                        <td><a href="https://leetcode.com/problems/subsets/" class="problem-link" target="_blank">View
+                                Problem</a></td>
+                        <td class="pseudocode">1. For each element: choose to include or not<br>2. Recurse with both
+                            options<br>3. Add to result when all elements processed</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">51</td>
+                        <td class="problem-title">N-Queens</td>
+                        <td><a href="https://leetcode.com/problems/n-queens/" class="problem-link" target="_blank">View
+                                Problem</a></td>
+                        <td class="pseudocode">1. Try placing queen in each row<br>2. Check column and diagonal
+                            conflicts<br>3. Backtrack if no valid position</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Dynamic Programming -->
+        <div class="pattern-section">
+            <div class="pattern-header">Dynamic Programming</div>
+            <table class="problems-table">
+                <thead>
+                    <tr>
+                        <th>Problem #</th>
+                        <th>Problem Title</th>
+                        <th>Link</th>
+                        <th>Pseudocode Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="problem-number">70</td>
+                        <td class="problem-title">Climbing Stairs</td>
+                        <td><a href="https://leetcode.com/problems/climbing-stairs/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i] = dp[i-1] + dp[i-2]<br>2. Base cases: dp[0]=1, dp[1]=1<br>3.
+                            Return dp[n]</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">322</td>
+                        <td class="problem-title">Coin Change</td>
+                        <td><a href="https://leetcode.com/problems/coin-change/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i] = min coins for amount i<br>2. For each coin: dp[i] = min(dp[i],
+                            dp[i-coin]+1)<br>3. Return dp[amount]</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">300</td>
+                        <td class="problem-title">Longest Increasing Subsequence</td>
+                        <td><a href="https://leetcode.com/problems/longest-increasing-subsequence/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i] = length of LIS ending at i<br>2. For each j < i: if nums[j] <
+                                nums[i], update dp[i]<br>3. Return max dp</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">416</td>
+                        <td class="problem-title">Partition Equal Subset Sum</td>
+                        <td><a href="https://leetcode.com/problems/partition-equal-subset-sum/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i][j] = can sum j be formed with first i elements<br>2. dp[i][j] =
+                            dp[i-1][j] OR dp[i-1][j-nums[i]]<br>3. Return dp[n][sum/2]</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">312</td>
+                        <td class="problem-title">Burst Balloons</td>
+                        <td><a href="https://leetcode.com/problems/burst-balloons/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i][j] = max coins from bursting balloons i to j<br>2. For each k in
+                            (i,j): dp[i][j] = max(dp[i][k] + nums[i-1]*nums[k]*nums[j+1] + dp[k][j])<br>3. Return
+                            dp[1][n]</td>
+                    </tr>
+                    <tr>
+                        <td class="problem-number">1143</td>
+                        <td class="problem-title">Longest Common Subsequence</td>
+                        <td><a href="https://leetcode.com/problems/longest-common-subsequence/" class="problem-link"
+                                target="_blank">View Problem</a></td>
+                        <td class="pseudocode">1. dp[i][j] = LCS of text1[0..i] and text2[0..j]<br>2. If chars match:
+                            dp[i][j] = dp[i-1][j-1] + 1<br>3. Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.problems-table tbody tr');
+
+            rows.forEach(row => {
+                const problemNumber = row.querySelector('.problem-number').textContent;
+                const problemTitle = row.querySelector('.problem-title').textContent.toLowerCase();
+
+                if (problemNumber.includes(searchTerm)) {
+                    row.style.display = '';
+                } else if (problemTitle.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
